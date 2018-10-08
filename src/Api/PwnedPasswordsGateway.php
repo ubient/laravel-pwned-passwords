@@ -22,7 +22,7 @@ class PwnedPasswordsGateway implements ApiGateway
         $hashPrefix = substr($hash, 0, 5);
         $hashSuffix = substr($hash, 5);
 
-        return Cache::remember("Ubient\PwnedPasswords::$hashPrefix", 7200, function () use ($hashPrefix, $hashSuffix) {
+        return Cache::remember("Ubient\PwnedPasswords::$hashPrefix", 7200, function() use ($hashPrefix, $hashSuffix) {
             return $this
                 ->fetchHashes($hashPrefix)
                 ->get($hashSuffix, 0);
@@ -49,7 +49,7 @@ class PwnedPasswordsGateway implements ApiGateway
         $hashes = explode("\r\n", $response->getBody());
 
         return collect($hashes)
-            ->mapWithKeys(function ($value) {
+            ->mapWithKeys(function($value) {
                 list($hashSuffix, $occurrences) = explode(':', $value);
 
                 return [$hashSuffix => $occurrences];
