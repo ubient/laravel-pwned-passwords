@@ -41,7 +41,7 @@ class PwnedPasswordsGateway implements ApiGateway
      */
     protected function fetchHashes(string $hashPrefix): Collection
     {
-        $response = (new GuzzleClient())->request('GET', "https://api.pwnedpasswords.com/range/" . $hashPrefix);
+        $response = (new GuzzleClient())->request('GET', 'https://api.pwnedpasswords.com/range/'.$hashPrefix);
         if ($response->getStatusCode() !== 200) {
             throw new RuntimeException("Couldn't query '$hashPrefix'");
         }

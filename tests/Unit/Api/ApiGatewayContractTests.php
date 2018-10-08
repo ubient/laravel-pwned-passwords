@@ -3,17 +3,15 @@
 namespace Ubient\PwnedPasswords\Tests\Unit\Api;
 
 use Ubient\PwnedPasswords\Api\ApiGateway;
-use Ubient\PwnedPasswords\Tests\TestCase;
 
 /**
- * This file exists as a bridge, creating a best-of-both-worlds situation:
+ * This file exists as a bridge, creating a best-of-both-worlds situation:.
  *
  * - We cannot always query the real API (how would we get our tests to pass offline?)
  * - We cannot always trust the fake API (how would we know the real API still works?)
  *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
- *
  */
 trait ApiGatewayContractTests
 {
@@ -24,7 +22,7 @@ trait ApiGatewayContractTests
     {
         $gateway = $this->getApiGateway();
 
-        $occurrences = $gateway->search("P@ssw0rd");
+        $occurrences = $gateway->search('P@ssw0rd');
 
         $this->assertTrue(is_int($occurrences));
         $this->assertTrue($occurrences >= 49938);
@@ -34,7 +32,7 @@ trait ApiGatewayContractTests
     public function passwords_that_are_not_pwned_should_indicate_zero_results(): void
     {
         $gateway = $this->getApiGateway();
-        $fakePassword = uniqid() . "0018A45C4D1DEF816A";
+        $fakePassword = uniqid().'0018A45C4D1DEF816A';
 
         $occurrences = $gateway->search($fakePassword);
 
@@ -46,7 +44,7 @@ trait ApiGatewayContractTests
     {
         $gateway = $this->getApiGateway();
 
-        $occurrences = $gateway->search("");
+        $occurrences = $gateway->search('');
 
         $this->assertEquals(0, $occurrences);
     }
