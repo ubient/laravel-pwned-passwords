@@ -10,7 +10,7 @@ class Pwned implements Rule
     /**
      * The validation error message.
      */
-    const VALIDATION_ERROR_MESSAGE = ":attribute was found in at least :num prior security incident(s). Please choose a more secure password.";
+    const VALIDATION_ERROR_MESSAGE = ':attribute was found in at least :num prior security incident(s). Please choose a more secure password.';
 
     /**
      * @var ApiGateway

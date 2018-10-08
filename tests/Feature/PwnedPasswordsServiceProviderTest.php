@@ -4,7 +4,6 @@ namespace Ubient\PwnedPasswords\Tests\Feature;
 
 use Illuminate\Support\Facades\Validator;
 use Ubient\PwnedPasswords\Tests\TestCase;
-use Ubient\PwnedPasswords\PwnedPasswordsServiceProvider;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -18,7 +17,7 @@ class PwnedPasswordsServiceProviderTest extends TestCase
         $errorMessage = Validator::make(['attribute' => 'P@ssw0rd'], ['attribute' => 'pwned:23'])->errors()->first();
 
         $this->assertEquals(
-            "attribute was found in at least 23 prior security incident(s). Please choose a more secure password.",
+            'attribute was found in at least 23 prior security incident(s). Please choose a more secure password.',
             $errorMessage
         );
     }
