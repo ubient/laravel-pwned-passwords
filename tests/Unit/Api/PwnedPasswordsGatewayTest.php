@@ -6,10 +6,6 @@ use Ubient\PwnedPasswords\Api\ApiGateway;
 use Ubient\PwnedPasswords\Tests\TestCase;
 use Ubient\PwnedPasswords\Api\PwnedPasswordsGateway;
 
-/**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
- */
 class PwnedPasswordsGatewayTest extends TestCase
 {
     use ApiGatewayContractTests;

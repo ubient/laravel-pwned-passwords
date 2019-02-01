@@ -9,9 +9,6 @@ use Ubient\PwnedPasswords\Api\ApiGateway;
  *
  * - We cannot always query the real API (how would we get our tests to pass offline?)
  * - We cannot always trust the fake API (how would we know the real API still works?)
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
  */
 trait ApiGatewayContractTests
 {
