@@ -5,10 +5,6 @@ namespace Ubient\PwnedPasswords\Tests\Feature;
 use Illuminate\Support\Facades\Validator;
 use Ubient\PwnedPasswords\Tests\TestCase;
 
-/**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
- */
 class PwnedPasswordsServiceProviderTest extends TestCase
 {
     /** @test */
