@@ -10,7 +10,7 @@ use Ubient\PwnedPasswords\Api\FakeApiGateway;
 
 class PwnedTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->app->instance(ApiGateway::class, new FakeApiGateway());
