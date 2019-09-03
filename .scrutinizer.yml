@@ -31,3 +31,12 @@ tools:
     php_cpd:
         enabled: true
         excluded_dirs: [vendor, tests]
+build:
+    nodes:
+        analysis:
+            environment:
+                php:
+                    version: 7.2
+            tests:
+                override:
+                    - php-scrutinizer-run
