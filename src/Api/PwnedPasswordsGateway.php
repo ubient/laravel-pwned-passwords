@@ -50,7 +50,7 @@ class PwnedPasswordsGateway implements ApiGateway
 
         return collect($hashes)
             ->mapWithKeys(function ($value) {
-                list($hashSuffix, $occurrences) = explode(':', $value);
+                [$hashSuffix, $occurrences] = explode(':', $value);
 
                 return [$hashSuffix => $occurrences];
             });
