@@ -2,7 +2,10 @@
 
 namespace Ubient\PwnedPasswords\Rules;
 
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Ubient\PwnedPasswords\Api\ApiGateway;
 
 class Pwned implements Rule
@@ -42,7 +45,16 @@ class Pwned implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $this->gateway->search($value) < $this->threshold;
+        try {
+            return $this->gateway->search($value) < $this->threshold;
+        } catch (Exception $exception) {
+            Log::warning('A password was marked as non-pwned due to issues during lookup.', [
+                'hash' => Hash::make($value),
+                'exception' => $exception,
+            ]);
+
+            return true;
+        }
     }
 
     /**

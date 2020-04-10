@@ -36,7 +36,7 @@ class PwnedPasswordsGateway implements ApiGateway
      * and the value is the amount of times the password was pwned.
      *
      * @param  string $hashPrefix
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return Collection
      */
     protected function fetchHashes(string $hashPrefix): Collection
