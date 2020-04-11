@@ -19,7 +19,15 @@ In order to protect the value of the source password being searched for, Pwned P
 This works by hashing the source password with SHA-1, and only sending the first 5 characters of that hash to the API.
 By checking whether the rest of the SHA-1 hash occurs within the output, we can verify both whether the password was pwned previously, and how frequently.
 
-### Usage
+## Installation
+
+You can install the package via composer:
+
+```bash
+composer require ubient/laravel-pwned-passwords
+```
+
+## Usage
 
 Here's a few short examples of what you can do:
 
@@ -59,21 +67,26 @@ $request->validate([
 ]);
 ```
 
-## Installation
+#### Handling Lookup Errors
+When the Pwned Passwords API cannot be queried, the default behavior is to accept the password as non-pwned and to send a warning message to the log.
+While this doesn't add much value, it does allow you to be aware of when a pwned password was allowed, and to potentially manually act on this.
 
-You can install the package via composer:
+If you would like to automatically do something else based on this lookup error (such as marking the request as potentially pwned), or want to decline the password instead,
+you may create your own implementation of the [LookupErrorHandler](src/Contracts/LookupErrorHandler.php) and overwrite the default binding in your application:
 
-```bash
-composer require ubient/laravel-pwned-passwords
+```php
+use Ubient\PwnedPasswords\Contracts\LookupErrorHandler;
+
+$this->app->bind(LookupErrorHandler::class, MyCustomErrorHandler::class);
 ```
 
-### Testing
+## Testing
 
 ``` bash
 composer test
 ```
 
-### Changelog
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
@@ -81,7 +94,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Security
+## Security
 
 If you discover any security related issues, please email claudio@ubient.net instead of using the issue tracker.
 

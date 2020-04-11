@@ -3,7 +3,9 @@
 namespace Ubient\PwnedPasswords\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Ubient\PwnedPasswords\Api\ApiGateway;
+use Throwable;
+use Ubient\PwnedPasswords\Contracts\ApiGateway;
+use Ubient\PwnedPasswords\Contracts\LookupErrorHandler;
 
 class Pwned implements Rule
 {
@@ -25,6 +27,7 @@ class Pwned implements Rule
     /**
      * Create a new rule instance.
      *
+     * @param  int  $threshold
      * @return void
      */
     public function __construct(int $threshold = 1)
@@ -42,15 +45,23 @@ class Pwned implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $this->gateway->search($value) < $this->threshold;
+        try {
+            return $this->gateway->search($value) < $this->threshold;
+        } catch (Throwable $exception) {
+            return app(LookupErrorHandler::class)->handle($exception, $value);
+        }
     }
 
     /**
      * Determine if the extended validation rule passes.
      *
      * @see https://laravel.com/docs/5.7/validation#using-extensions
+     * @param $attribute
+     * @param $value
+     * @param $parameters
+     * @return bool
      */
-    public function validate($attribute, $value, $parameters, $validator)
+    public function validate($attribute, $value, $parameters)
     {
         $this->threshold = (int) (array_shift($parameters) ?? 1);
 

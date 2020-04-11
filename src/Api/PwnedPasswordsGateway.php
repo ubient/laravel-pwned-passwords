@@ -2,10 +2,11 @@
 
 namespace Ubient\PwnedPasswords\Api;
 
-use RuntimeException;
+use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use GuzzleHttp\Client as GuzzleClient;
+use RuntimeException;
+use Ubient\PwnedPasswords\Contracts\ApiGateway;
 
 class PwnedPasswordsGateway implements ApiGateway
 {
@@ -18,15 +19,15 @@ class PwnedPasswordsGateway implements ApiGateway
     public function search(string $password): int
     {
         $hash = strtoupper(sha1($password));
-
         $hashPrefix = substr($hash, 0, 5);
         $hashSuffix = substr($hash, 5);
 
-        return Cache::remember("Ubient\PwnedPasswords::$hashPrefix", 7200, function () use ($hashPrefix, $hashSuffix) {
-            return $this
-                ->fetchHashes($hashPrefix)
-                ->get($hashSuffix, 0);
+        /** @var Collection $hashes */
+        $hashes = Cache::remember("Ubient\PwnedPasswords::$hashPrefix", 7200, function () use ($hashPrefix) {
+            return $this->fetchHashes($hashPrefix);
         });
+
+        return $hashes->get($hashSuffix, 0);
     }
 
     /**
@@ -36,7 +37,7 @@ class PwnedPasswordsGateway implements ApiGateway
      * and the value is the amount of times the password was pwned.
      *
      * @param  string $hashPrefix
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return Collection
      */
     protected function fetchHashes(string $hashPrefix): Collection
