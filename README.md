@@ -71,7 +71,7 @@ $request->validate([
 When the Pwned Passwords API cannot be queried, the default behavior is to accept the password as non-pwned and to send a warning message to the log.
 While this doesn't add much value, it does allow you to be aware of when a pwned password was allowed, and to potentially manually act on this.
 
-If you would like to automatically do something based on this lookup error (such as marking the request as potentially pwned), or want to decline the password instead,
+If you would like to automatically do something else based on this lookup error (such as marking the request as potentially pwned), or want to decline the password instead,
 you may create your own implementation of the [LookupErrorHandler](src/Contracts/LookupErrorHandler.php) and overwrite the default binding in your application:
 
 ```php
