@@ -2,7 +2,7 @@
 
 namespace Ubient\PwnedPasswords\Tests\Unit\Api;
 
-use Ubient\PwnedPasswords\Api\ApiGateway;
+use Ubient\PwnedPasswords\Contracts\ApiGateway;
 
 /**
  * This file exists as a bridge, creating a best-of-both-worlds situation:.

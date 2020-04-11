@@ -2,11 +2,10 @@
 
 namespace Ubient\PwnedPasswords\Rules;
 
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Ubient\PwnedPasswords\Api\ApiGateway;
+use Throwable;
+use Ubient\PwnedPasswords\Contracts\ApiGateway;
+use Ubient\PwnedPasswords\Contracts\LookupErrorHandler;
 
 class Pwned implements Rule
 {
@@ -28,6 +27,7 @@ class Pwned implements Rule
     /**
      * Create a new rule instance.
      *
+     * @param  int  $threshold
      * @return void
      */
     public function __construct(int $threshold = 1)
@@ -47,13 +47,8 @@ class Pwned implements Rule
     {
         try {
             return $this->gateway->search($value) < $this->threshold;
-        } catch (Exception $exception) {
-            Log::warning('A password was marked as non-pwned due to issues during lookup.', [
-                'hash' => Hash::make($value),
-                'exception' => $exception,
-            ]);
-
-            return true;
+        } catch (Throwable $exception) {
+            return app(LookupErrorHandler::class)->handle($exception, $value);
         }
     }
 
@@ -61,8 +56,12 @@ class Pwned implements Rule
      * Determine if the extended validation rule passes.
      *
      * @see https://laravel.com/docs/5.7/validation#using-extensions
+     * @param $attribute
+     * @param $value
+     * @param $parameters
+     * @return bool
      */
-    public function validate($attribute, $value, $parameters, $validator)
+    public function validate($attribute, $value, $parameters)
     {
         $this->threshold = (int) (array_shift($parameters) ?? 1);
 

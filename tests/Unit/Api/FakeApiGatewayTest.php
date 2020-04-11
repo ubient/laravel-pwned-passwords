@@ -2,9 +2,9 @@
 
 namespace Ubient\PwnedPasswords\Tests\Unit\Api;
 
-use Ubient\PwnedPasswords\Api\ApiGateway;
-use Ubient\PwnedPasswords\Tests\TestCase;
 use Ubient\PwnedPasswords\Api\FakeApiGateway;
+use Ubient\PwnedPasswords\Contracts\ApiGateway;
+use Ubient\PwnedPasswords\Tests\TestCase;
 
 class FakeApiGatewayTest extends TestCase
 {

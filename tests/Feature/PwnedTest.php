@@ -2,14 +2,13 @@
 
 namespace Ubient\PwnedPasswords\Tests\Feature;
 
+use Illuminate\Support\Facades\Validator;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
-use Ubient\PwnedPasswords\Rules\Pwned;
-use Illuminate\Support\Facades\Validator;
-use Ubient\PwnedPasswords\Api\ApiGateway;
-use Ubient\PwnedPasswords\Tests\TestCase;
 use Ubient\PwnedPasswords\Api\FakeApiGateway;
-use function foo\func;
+use Ubient\PwnedPasswords\Contracts\ApiGateway;
+use Ubient\PwnedPasswords\Rules\Pwned;
+use Ubient\PwnedPasswords\Tests\TestCase;
 
 class PwnedTest extends TestCase
 {
@@ -101,7 +100,8 @@ class PwnedTest extends TestCase
     }
 
     /** @test */
-    public function it_should_pass_the_validation_when_a_network_error_occurs_during_lookup(){
+    public function it_should_pass_the_validation_when_a_network_error_occurs_during_lookup()
+    {
         config([
             'logging.default' => 'test',
             'logging.channels' => [
@@ -110,6 +110,7 @@ class PwnedTest extends TestCase
                     'via' => function () {
                         $monolog = new Logger('test');
                         $monolog->pushHandler(new TestHandler());
+
                         return $monolog;
                     },
                 ],
@@ -123,9 +124,8 @@ class PwnedTest extends TestCase
             $this->assertCount(2, $logMessages);
 
             tap($logMessages[0], function ($logMessage) use ($pwnedPassword) {
-                $this->assertEquals("A password was marked as non-pwned due to issues during lookup.", $logMessage['message']);
+                $this->assertEquals('A password was marked as non-pwned due to issues during lookup.', $logMessage['message']);
                 $this->assertTrue(password_verify($pwnedPassword, $logMessage['context']['hash']));
-                $this->assertInstanceOf(\Exception::class, $logMessage['context']['exception']);
             });
         });
     }

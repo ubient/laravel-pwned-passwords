@@ -1,6 +1,6 @@
 <?php
 
-namespace Ubient\PwnedPasswords\Api;
+namespace Ubient\PwnedPasswords\Contracts;
 
 interface ApiGateway
 {
