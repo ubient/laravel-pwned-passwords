@@ -47,6 +47,7 @@ class Pwned implements Rule
     {
         try {
             $this->pwned_count = $this->gateway->search($value);
+
             return $this->pwned_count < $this->threshold;
         } catch (Throwable $exception) {
             return app(LookupErrorHandler::class)->handle($exception, $value);
