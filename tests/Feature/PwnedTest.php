@@ -99,6 +99,20 @@ class PwnedTest extends TestCase
     }
 
     /** @test */
+    public function it_should_show_the_validation_error_message_when_used_as_a_string(): void
+    {
+        $errorMessage = Validator::make(
+            ['attr' => 'P@ssw0rd'],
+            ['attr' => 'pwned:75']
+        )->errors()->first();
+
+        $this->assertEquals(
+            'attr was found in at least 75 prior security incident(s). Please choose a more secure password.',
+            $errorMessage
+        );
+    }
+
+    /** @test */
     public function it_should_pass_the_validation_when_a_network_error_occurs_during_lookup(): void
     {
         config([
