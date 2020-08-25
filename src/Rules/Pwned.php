@@ -10,11 +10,6 @@ use Ubient\PwnedPasswords\Contracts\LookupErrorHandler;
 class Pwned implements Rule
 {
     /**
-     * The validation error message.
-     */
-    const VALIDATION_ERROR_MESSAGE = ':attribute was found in at least :num prior security incident(s). Please choose a more secure password.';
-
-    /**
      * @var ApiGateway
      */
     protected $gateway;
@@ -43,7 +38,7 @@ class Pwned implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         try {
             return $this->gateway->search($value) < $this->threshold;
@@ -61,7 +56,7 @@ class Pwned implements Rule
      * @param $parameters
      * @return bool
      */
-    public function validate($attribute, $value, $parameters)
+    public function validate($attribute, $value, $parameters): bool
     {
         $this->threshold = (int) (array_shift($parameters) ?? 1);
 
@@ -73,8 +68,8 @@ class Pwned implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
-        return str_replace(':num', $this->threshold, self::VALIDATION_ERROR_MESSAGE);
+        return trans('PwnedPasswords::validation.pwned', ['num' => $this->threshold]);
     }
 }

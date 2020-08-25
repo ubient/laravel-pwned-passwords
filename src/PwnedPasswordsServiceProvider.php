@@ -14,9 +14,15 @@ class PwnedPasswordsServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Validator::extend('pwned', Pwned::class, Pwned::VALIDATION_ERROR_MESSAGE);
+        $this->publishes([__DIR__.'/../resources/lang' => resource_path('lang/vendor/pwned-passwords')], 'lang');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'PwnedPasswords');
+
+        Validator::extend('pwned', Pwned::class);
         Validator::replacer('pwned', function ($message, $attribute, $rule, $parameters) {
-            return str_replace(':num', array_shift($parameters) ?? 1, $message);
+            return trans('PwnedPasswords::validation.pwned', [
+                'attribute' => $attribute,
+                'num' => array_shift($parameters) ?? 1,
+            ]);
         });
     }
 

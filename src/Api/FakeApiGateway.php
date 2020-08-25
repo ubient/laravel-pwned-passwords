@@ -2,6 +2,7 @@
 
 namespace Ubient\PwnedPasswords\Api;
 
+use RuntimeException;
 use Ubient\PwnedPasswords\Contracts\ApiGateway;
 
 class FakeApiGateway implements ApiGateway
@@ -15,7 +16,7 @@ class FakeApiGateway implements ApiGateway
     public function search(string $password): int
     {
         if ($password === 'password1') {
-            throw new \RuntimeException('Simulated network connectivity issue.');
+            throw new RuntimeException('Simulated network connectivity issue.');
         }
 
         return collect([
