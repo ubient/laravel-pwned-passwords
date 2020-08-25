@@ -14,14 +14,10 @@ class PwnedPasswordsServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/../resources/lang' => base_path('resources/lang/vendor/cookieConsent'),
-        ], 'lang');
-
+        $this->publishes([__DIR__.'/../resources/lang' => resource_path('lang/vendor/pwned-passwords')], 'lang');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'PwnedPasswords');
 
         Validator::extend('pwned', Pwned::class);
-
         Validator::replacer('pwned', function ($message, $attribute, $rule, $parameters) {
             return trans('PwnedPasswords::validation.pwned', [
                 'attribute' => $attribute,
