@@ -23,7 +23,7 @@ class PwnedPasswordsServiceProvider extends ServiceProvider
         Validator::extend('pwned', Pwned::class);
 
         Validator::replacer('pwned', function ($message, $attribute, $rule, $parameters) {
-            return trans('PwnedPasswords::validation.error_message', [
+            return trans('PwnedPasswords::validation.pwned', [
                 'attribute' => $attribute,
                 'num' => array_shift($parameters) ?? 1,
             ]);

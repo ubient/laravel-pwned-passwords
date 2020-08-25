@@ -20,11 +20,6 @@ class Pwned implements Rule
     protected $threshold;
 
     /**
-     * @var int
-     */
-    protected $pwned_count = 1;
-
-    /**
      * Create a new rule instance.
      *
      * @param  int  $threshold
@@ -43,12 +38,10 @@ class Pwned implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         try {
-            $this->pwned_count = $this->gateway->search($value);
-
-            return $this->pwned_count < $this->threshold;
+            return $this->gateway->search($value) < $this->threshold;
         } catch (Throwable $exception) {
             return app(LookupErrorHandler::class)->handle($exception, $value);
         }
@@ -62,10 +55,8 @@ class Pwned implements Rule
      * @param $value
      * @param $parameters
      * @return bool
-     *
-     * @deprecated
      */
-    public function validate($attribute, $value, $parameters)
+    public function validate($attribute, $value, $parameters): bool
     {
         $this->threshold = (int) (array_shift($parameters) ?? 1);
 
@@ -77,8 +68,8 @@ class Pwned implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
-        return trans('PwnedPasswords::validation.error_message', ['num' => $this->pwned_count]);
+        return trans('PwnedPasswords::validation.pwned', ['num' => $this->threshold]);
     }
 }

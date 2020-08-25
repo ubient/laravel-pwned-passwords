@@ -3,6 +3,7 @@
 namespace Ubient\PwnedPasswords\Api;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use RuntimeException;
@@ -37,8 +38,8 @@ class PwnedPasswordsGateway implements ApiGateway
      * and the value is the amount of times the password was pwned.
      *
      * @param  string $hashPrefix
-     * @throws RuntimeException
      * @return Collection
+     * @throws RuntimeException|GuzzleException
      */
     protected function fetchHashes(string $hashPrefix): Collection
     {

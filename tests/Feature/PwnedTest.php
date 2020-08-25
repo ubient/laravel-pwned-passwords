@@ -87,19 +87,19 @@ class PwnedTest extends TestCase
     /** @test */
     public function it_should_show_the_validation_error_message_when_used_as_a_rule_object(): void
     {
-        $input = ['my-password' => 'P@ssw0rd'];
-        $rules = ['my-password' => new Pwned(75)];
-
-        $errorMessage = Validator::make($input, $rules)->errors()->first();
+        $errorMessage = Validator::make(
+            ['my-password' => 'P@ssw0rd'],
+            ['my-password' => new Pwned(75)]
+        )->errors()->first();
 
         $this->assertEquals(
-            'my-password was found in at least 49938 prior security incident(s). Please choose a more secure password.',
+            'my-password was found in at least 75 prior security incident(s). Please choose a more secure password.',
             $errorMessage
         );
     }
 
     /** @test */
-    public function it_should_pass_the_validation_when_a_network_error_occurs_during_lookup()
+    public function it_should_pass_the_validation_when_a_network_error_occurs_during_lookup(): void
     {
         config([
             'logging.default' => 'test',
