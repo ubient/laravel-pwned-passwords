@@ -99,6 +99,19 @@ class PwnedTest extends TestCase
     }
 
     /** @test */
+    public function it_should_show_the_exact_number_of_breaches(): void
+    {
+        $objectRuleError = Validator::make(['attr' => 'P@ssw0rd'], ['attr' => new Pwned(75)])->errors()->first();
+        $stringRuleError = Validator::make(['attr' => 'P@ssw0rd'], ['attr' => 'pwned:75'])->errors()->first();
+
+        $this->assertEquals($objectRuleError, $stringRuleError);
+        $this->assertEquals(
+            'attr was found in at least 49938 prior security incident(s). Please choose a more secure password.',
+            $objectRuleError
+        );
+    }
+
+    /** @test */
     public function it_should_pass_the_validation_when_a_network_error_occurs_during_lookup()
     {
         config([
