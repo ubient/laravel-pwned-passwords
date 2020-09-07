@@ -23,11 +23,11 @@
     "require": {
         "php": "^7.2",
         "guzzlehttp/guzzle": "^6.3",
-        "illuminate/contracts": "^5.8|^6.0|^7.0",
-        "illuminate/support": "^5.8|^6.0|^7.0"
+        "illuminate/contracts": "^5.8|^6.0|^7.0|^8.0",
+        "illuminate/support": "^5.8|^6.0|^7.0|^8.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^3.8|^4.0|^5.0",
+        "orchestra/testbench": "^3.8|^4.0|^5.0|^6.0",
         "phpunit/phpunit": "^8.0"
     },
     "autoload": {

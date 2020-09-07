@@ -2,6 +2,9 @@
 
 All notable changes to `ubient/laravel-pwned-passwords` will be documented in this file
 
+## 3.3.0 - 2020-09-07
+- Add support for Laravel 8
+
 ## 3.2.0 - 2020-08-25
 - Ability to translate & modify the pwned validation message (thanks to [@niekdemelker](https://github.com/niekdemelker))
 
