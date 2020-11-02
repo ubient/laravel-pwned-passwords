@@ -4,8 +4,8 @@
   <a href="https://github.com/ubient/laravel-pwned-passwords/releases">
     <img src="https://img.shields.io/github/release/ubient/laravel-pwned-passwords.svg?style=flat-square" alt="Latest Version">
   </a>
-  <a href="https://travis-ci.org/ubient/laravel-pwned-passwords">
-    <img src="https://img.shields.io/travis/ubient/laravel-pwned-passwords/master.svg?style=flat-square" alt="Build Status">
+  <a href="https://github.com/ubient/laravel-pwned-passwords/actions?query=workflow%3Atests+branch%3Amaster">
+    <img src="https://img.shields.io/github/workflow/status/ubient/laravel-pwned-passwords/tests/master.svg?style=flat-square" alt="Build Status">
   </a>
   <a href="https://scrutinizer-ci.com/g/ubient/laravel-pwned-passwords">
     <img src="https://img.shields.io/scrutinizer/g/ubient/laravel-pwned-passwords.svg?style=flat-square" alt="Quality Score">
