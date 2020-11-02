@@ -1,23 +1,36 @@
+![Pwned Passwords](https://banners.beyondco.de/Laravel%20Pwned%20Passwords.png?theme=light&packageName=ubient%2Flaravel-pwned-passwords&pattern=brickWall&style=style_1&description=Automatically+check+password+safety+against+existing+data+breaches&md=1&fontSize=100px&images=lock-closed&widths=auto&heights=250)
+
+<p align="center">
+  <a href="https://github.com/ubient/laravel-pwned-passwords/releases">
+    <img src="https://img.shields.io/github/release/ubient/laravel-pwned-passwords.svg?style=flat-square" alt="Latest Version">
+  </a>
+  <a href="https://travis-ci.org/ubient/laravel-pwned-passwords">
+    <img src="https://img.shields.io/travis/ubient/laravel-pwned-passwords/master.svg?style=flat-square" alt="Build Status">
+  </a>
+  <a href="https://scrutinizer-ci.com/g/ubient/laravel-pwned-passwords">
+    <img src="https://img.shields.io/scrutinizer/g/ubient/laravel-pwned-passwords.svg?style=flat-square" alt="Quality Score">
+  </a>
+  <a href="https://styleci.io/repos/151966705"><img src="https://styleci.io/repos/151966705/shield" alt="StyleCI"></a>
+  <a href="https://packagist.org/packages/ubient/laravel-pwned-passwords">
+    <img src="https://img.shields.io/packagist/dt/ubient/laravel-pwned-passwords.svg?style=flat-square" alt="Total Downloads">
+  </a>
+</p>
+
 # Pwned Passwords
 
-[![Latest Version](https://img.shields.io/github/release/ubient/laravel-pwned-passwords.svg?style=flat-square)](https://github.com/ubient/laravel-pwned-passwords/releases)
-[![Build Status](https://img.shields.io/travis/ubient/laravel-pwned-passwords/master.svg?style=flat-square)](https://travis-ci.org/ubient/laravel-pwned-passwords)
-[![Quality Score](https://img.shields.io/scrutinizer/g/ubient/laravel-pwned-passwords.svg?style=flat-square)](https://scrutinizer-ci.com/g/ubient/laravel-pwned-passwords)
-[![StyleCI](https://styleci.io/repos/151966705/shield)](https://styleci.io/repos/151966705)
-[![Total Downloads](https://img.shields.io/packagist/dt/ubient/laravel-pwned-passwords.svg?style=flat-square)](https://packagist.org/packages/ubient/laravel-pwned-passwords)
+This package provides a validation rule that allows you to prevent or limit the re-use of passwords that are known to be unsafe for ongoing usage. 
+The result is a more secure application, as your users will have a much lower risk of having their accounts taken over.
 
-This package provides a Laravel validation rule that can be used to check a password
-against TroyHunt's [Pwned Passwords (haveibeenpwned.com)](https://haveibeenpwned.com/Passwords),
-a database containing 517,238,891 real world passwords previously exposed in data breaches.
+### How it works
 
-By using this validation rule, you can prevent re-use of passwords that are unsuitable for ongoing usage,
-resulting in a more secure application, as your users will have a much lower risk of having their accounts taken over.
+Internally, the validation rule uses what is known as a [k-Anonymity model](https://en.wikipedia.org/wiki/K-anonymity) that allows for the password to be looked up without giving up the user's privacy or security:
 
-##### How it works
+- First, we hash the password using SHA-1
+- Next, it looks up the first 5 characters of this hash against TroyHunt's [Pwned Passwords (haveibeenpwned.com)](https://haveibeenpwned.com/Passwords) API. 
+- The API then responds with a list _suffixes_ to these first 5 characters that we are looking up.
+- Finally, we search through the list, checking whether the suffix of our hashed password matches any of the entries.
 
-In order to protect the value of the source password being searched for, Pwned Passwords implements a [k-Anonymity model](https://en.wikipedia.org/wiki/K-anonymity) that allows a password to be searched for by partial hash.
-This works by hashing the source password with SHA-1, and only sending the first 5 characters of that hash to the API.
-By checking whether the rest of the SHA-1 hash occurs within the output, we can verify both whether the password was pwned previously, and how frequently.
+This will then tell us whether a password was breached, and if so, how frequent.
 
 ## Installation
 
@@ -48,8 +61,8 @@ protected function validator(array $data)
 }
 ```
 
-You can also relax the rule, allowing passwords that have been pwned multiple times.
-In the example below, passwords that have been pwned between 0 and 4 times are allowed:
+It is also possible to relax the rule, allowing passwords that have been breached multiple times.
+In the following example, passwords that have been pwned between 0 and 4 times are allowed:
 
 ```php
 $request->validate([
@@ -57,7 +70,7 @@ $request->validate([
 ]);
 ```
 
-Of course, you can also use a Rule object instead:
+Alternatively, you can also achieve the same using a Rule object:
 
 ```php
 use Ubient\PwnedPasswords\Rules\Pwned;
@@ -68,8 +81,7 @@ $request->validate([
 ```
 
 #### Handling Lookup Errors
-When the Pwned Passwords API cannot be queried, the default behavior is to accept the password as non-pwned and to send a warning message to the log.
-While this doesn't add much value, it does allow you to be aware of when a pwned password was allowed, and to potentially manually act on this.
+When the [Pwned Passwords](https://haveibeenpwned.com/Passwords) API cannot be queried, the default behavior is to accept the password as non-pwned and to send a warning message to the log. While this by itself doesn't add much value, it does allow you to be aware of when a pwned password was allowed, and to potentially manually act on this.
 
 If you would like to automatically do something else based on this lookup error (such as marking the request as potentially pwned), or want to decline the password instead,
 you may create your own implementation of the [LookupErrorHandler](src/Contracts/LookupErrorHandler.php) and overwrite the default binding in your application:
