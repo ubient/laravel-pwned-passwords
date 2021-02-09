@@ -92,6 +92,11 @@ use Ubient\PwnedPasswords\Contracts\LookupErrorHandler;
 $this->app->bind(LookupErrorHandler::class, MyCustomErrorHandler::class);
 ```
 
+#### Overriding localization
+If following the [Laravel Docs](https://laravel.com/docs/master/localization#overriding-package-language-files) to override the validation message provided by this package you'll need to use the `PwnedPasswords` namespace for the file path.
+
+To override the validation message provided by this package, place your file at `resources/lang/vendor/PwnedPasswords/en/validation.php`.
+
 ## Testing
 
 ``` bash
