@@ -1,6 +1,4 @@
-![Pwned Passwords](https://banners.beyondco.de/Laravel%20Pwned%20Passwords.png?theme=light&packageName=ubient%2Flaravel-pwned-passwords&pattern=brickWall&style=style_1&description=Automatically+check+password+safety+against+existing+data+breaches&md=1&fontSize=100px&images=lock-closed&widths=auto&heights=250)
-
-<p align="center">
+<p align="left">
   <a href="https://github.com/ubient/laravel-pwned-passwords/releases">
     <img src="https://img.shields.io/github/release/ubient/laravel-pwned-passwords.svg?style=flat-square" alt="Latest Version">
   </a>
