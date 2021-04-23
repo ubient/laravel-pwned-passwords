@@ -20,4 +20,4 @@
 
 This package is no longer maintained, as it's features have been absorbed into [laravel/framework](https://github.com/laravel/framework/pull/36960) v8.x.
 
-While this package will remain available for the forseeable future, **this package WILL NOT be receiving any further (security) updates going forward**, making the upgrade to [laravel/framework 8.39.0](https://github.com/laravel/framework/releases/tag/v8.39.0) and usage of that implementation highly recommended.
+While this package will remain available for the forseeable future, **this package WILL NOT be receiving any further (security) updates going forward**, making the upgrade to [laravel/framework 8.39.0 or newer ](https://github.com/laravel/framework/releases/tag/v8.39.0) and usage of that implementation highly recommended.
